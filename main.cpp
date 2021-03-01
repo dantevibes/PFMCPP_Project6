@@ -57,14 +57,14 @@ Purpose:  This project will show you the difference between member functions and
 struct T
 {
     T(char v, const char* vPointer);   //1
-    char value{'a'};   //2
-    const char* vPointer{&value};
-    std::string name {"smaller"}; //3
+    char value;   //2
+    std::string name; //3
 };
 
-T::T(char v, const char* vPointer) //self-added
+T::T(char v, const char* vPointer)
 {
     value = v;
+    name = vPointer;
 }
 
 struct CompareTValues                                //4
@@ -121,11 +121,11 @@ struct <#structname2#>
 
 int main()
 {
-    T Ampersand('&', &Ampersand );                                          //6
-    T Percent('%', &Percent );                                           //6
+    T Ampersand('&', "&" );                                          //6
+    T Percent('%', "%" );                                           //6
     
     CompareTValues f;                                            //7
-    auto* smaller = f.compare( Ampersand , Percent );                              //8
+    auto* smaller = f.compare( &Ampersand , &Percent );                              //8
     std::cout << "the smaller one is << " << smaller->name << std::endl; //9
     
     U <#name3#>;
