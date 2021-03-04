@@ -79,17 +79,17 @@ struct CompareTValues                                //4
 
 struct U
 {
-    float thing1 { 0 }, thing2 { 0 };
+    float uVal1 { 0 }, uVal2 { 0 };
     float reduceGap(float* increment)      //12
     {
-        while( std::abs(thing2 - thing1) > 0.001f )
+        while( std::abs(uVal2 - uVal1) > 0.001f )
         {
-            if(thing2 > thing1)
-                thing2 -= (*increment * 0.5f);
-            else if (thing2 < thing1)
-                thing2 += (*increment * 0.5f);
+            if(uVal2 > uVal1)
+                uVal2 -= (*increment * 0.5f);
+            else if (uVal2 < uVal1)
+                uVal2 += (*increment * 0.5f);
         }
-        return thing1 * thing2;
+        return uVal1 * uVal2;
     }
 };
 
@@ -98,21 +98,21 @@ struct Updator
             
     static float reduceGap(U* that, float*  thingPointer)   //10
     {
-        std::cout << "U's thing1 value: " << that->thing1 << std::endl;
-        that->thing1 = *thingPointer;
-        std::cout << "U's thing1 updated value: " << that->thing1 << std::endl;
-        while( std::abs(that->thing2 - that->thing1) > 0.001f )
+        std::cout << "U's thing1 value: " << that->uVal1 << std::endl;
+        that->uVal1 = *thingPointer;
+        std::cout << "U's thing1 updated value: " << that->uVal1 << std::endl;
+        while( std::abs(that->uVal2 - that->uVal1) > 0.001f )
         {
             /*
              something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            if(that->thing2 > that->thing1)
-                that->thing2 -= (*thingPointer * 0.5f);
-            else if (that->thing2 < that->thing1)
-                that->thing2 += (*thingPointer * 0.5f);
+            if(that->uVal2 > that->uVal1)
+                that->uVal2 -= (*thingPointer * 0.5f);
+            else if (that->uVal2 < that->uVal1)
+                that->uVal2 += (*thingPointer * 0.5f);
         }
-        std::cout << "U's thing2 updated value: " << that->thing2 << std::endl;
-        return that->thing2 * that->thing1;
+        std::cout << "U's thing2 updated value: " << that->uVal2 << std::endl;
+        return that->uVal2 * that->uVal1;
     }
 };
         
