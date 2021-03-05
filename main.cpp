@@ -61,11 +61,10 @@ struct T
     std::string name; //3
 };
 
-T::T(char v, const char* vPointer)
-{
-    value = v;
-    name = vPointer;
-}
+T::T(char v, const char* vPointer) :
+    value(v),
+    name (vPointer)
+{}
 
 struct CompareTValues                                //4
 {
@@ -150,11 +149,11 @@ struct Updator
 
 int main()
 {
-    T Ampersand('&', "&" );                                          //6
-    T Percent('%', "%" );                                           //6
+    T ampersand('&', "&" );                                          //6
+    T percent('%', "%" );                                           //6
     
     CompareTValues f;                                            //7
-    auto* smaller = f.compare( &Ampersand , &Percent );                              //8
+    auto* smaller = f.compare( &ampersand , &percent );                              //8
     std::cout << "the smaller one is << " << smaller->name << std::endl; //9
     
     U staticTest;
