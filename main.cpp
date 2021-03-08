@@ -56,46 +56,80 @@ Purpose:  This project will show you the difference between member functions and
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(char v, const char* vName);   //1
+    char value;   //2
+    std::string name; //3
 };
 
-struct <#structName1#>                                //4
+T::T(char v, const char* vName) :
+    value(v),
+    name (vName)
+{}
+
+struct CompareTValues                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if(a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
         return nullptr;
     }
 };
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float uVal1 { 0 }, uVal2 { 0 };
+    float reduceGap(float* target)      //12
     {
-        
+        if( target != nullptr )
+        {
+            std::cout << "U's uVal1 value: " << uVal1 << std::endl;
+            uVal1 = *target;
+            std::cout << "U's uVal1 updated value: " << uVal1 << std::endl;
+
+            while( std::abs(uVal2 - uVal1) > 0.001f )
+            {
+                if(uVal2 > uVal1)
+                    uVal2 -= std::abs(uVal2 - uVal1)*.5f;
+                else if (uVal2 < uVal1)
+                    uVal2 += std::abs(uVal2 - uVal1)*.5f;
+            }
+            std::cout << "U's uVal2 updated value: " << uVal2 << std::endl;
+            return uVal1 * uVal2;
+        }
+        std::cout << "bad argument, returning uVal1" << std::endl;
+        return uVal1;
     }
 };
 
-struct <#structname2#>
+struct Updator
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+            
+    static float reduceGap(U* that, float*  uValPointer)   //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        if( that != nullptr && uValPointer != nullptr)
         {
+            std::cout << "U's uVal1 value: " << that->uVal1 << std::endl;
+            that->uVal1 = *uValPointer;
+            std::cout << "U's uVal1 updated value: " << that->uVal1 << std::endl;
+            while( std::abs(that->uVal2 - that->uVal1) > 0.001f )
+            {
             /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
+             something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
              */
-            that-><#name2#> += ;
+                if(that->uVal2 > that->uVal1)
+                    that->uVal2 -= std::abs(that->uVal2 - that->uVal1)*.5f;
+                else if (that->uVal2 < that->uVal1)
+                    that->uVal2 += std::abs(that->uVal2 - that->uVal1)*.5f;
+            }
+            std::cout << "U's uVal2 updated value: " << that->uVal2 << std::endl;
+            return that->uVal2 * that->uVal1;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "bad arguments, returning arbitrary value" << std::endl;
+        return 99.99f;
     }
 };
         
@@ -115,19 +149,22 @@ struct <#structname2#>
 
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T ampersand('&', "&" );                                         //6
+    T percent('%', "%" );                                           //6
+
+    CompareTValues f;       //7
+    auto* smaller = f.compare( &ampersand , &percent );  //8           
+    if ( smaller != nullptr )
+    {                                                       
+        std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    }
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
-    
-    U <#name3#>;
+    U staticTest;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] staticTest's multiplied values: " << Updator::reduceGap(&staticTest, &updatedValue) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U memberTest;
+    std::cout << "[member func] memberTest's multiplied values: " << memberTest.reduceGap( &updatedValue ) << std::endl;
 }
 
         
