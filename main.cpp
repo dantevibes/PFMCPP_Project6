@@ -33,13 +33,20 @@ T::T(char v, const char* vName) :
 
 struct CompareTValues                                //4
 {
-    T& compare( T& a, T& b) //5
+    T* compare(T* a, T* b) //5
     {
-        if( a.value < b.value ) return a;
-        else if( a.value > b.value ) return b;
-        
-        std::cout << "Values are equal, returning first arg..." << std::endl;
-        return a;
+        if(a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            else if( a->value > b->value ) return b;
+            else
+            {
+                std::cout << "Values are equal, returning first arg..." << std::endl;
+                return a;
+            }
+        }
+        std::cout << "got a nullptr, returning nullptr" << std::endl;
+        return nullptr;
     }
 };
 
@@ -109,8 +116,11 @@ int main()
     T percent('%', "%" );                                           //6
 
     CompareTValues f;       //7
-    auto& smaller = f.compare( ampersand , percent );  //8                                                           
-    std::cout << "the smaller one is << " << smaller.name << std::endl; //9
+    auto* smaller = f.compare( &ampersand , &percent );  //8                                                   
+    if( smaller != nullptr )
+    {
+        std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    }  
     
     U staticTest;
     float updatedValue = 5.f;
