@@ -31,18 +31,13 @@ T::T(char v, const char* vName) :
     name (vName)
 {}
 
-struct CompareTValues                                //4
+struct CompareTValues         //4
 {
-    const T* compare(const T& a, const T& b) //5
+    T* compare( T& a, T& b)     //5
     {
-        
-        if( a.value < b.value ) return &a ;
-        else if( a.value > b.value ) return &b;
-        else
-        {
-            std::cout << "Values are equal, returning nullptr..." << std::endl;
-            return nullptr;
-        }
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
+        return nullptr;
     }
 };
 
